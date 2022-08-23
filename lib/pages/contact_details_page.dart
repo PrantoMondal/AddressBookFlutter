@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ContactDetails extends StatefulWidget {
+class ContactDetailsPage extends StatefulWidget {
   static const String routeName = '/contact_details';
-  const ContactDetails({Key? key}) : super(key: key);
+  const ContactDetailsPage({Key? key}) : super(key: key);
 
   @override
-  State<ContactDetails> createState() => _ContactDetailsState();
+  State<ContactDetailsPage> createState() => _ContactDetailsPageState();
 }
 
-class _ContactDetailsState extends State<ContactDetails> {
+class _ContactDetailsPageState extends State<ContactDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold();
