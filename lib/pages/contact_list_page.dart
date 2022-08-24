@@ -16,6 +16,7 @@ class _ContactListPageState extends State<ContactListPage> {
       appBar:AppBar(
         title: const Text('Contact List'),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, NewContactPage.routeName),
         child: const Icon(Icons.add),

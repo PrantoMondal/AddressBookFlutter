@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:addressbook/models/contact_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -15,8 +16,13 @@ class NewContactPage extends StatefulWidget {
 
 class _NewContactPageState extends State<NewContactPage> {
   final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final addressController = TextEditingController();
+  final webController = TextEditingController();
   String? dob;
   String? imagePath;
+  String genderGroupValue = 'Male';
   ImageSource source = ImageSource.camera;
 
   @override
@@ -28,6 +34,11 @@ class _NewContactPageState extends State<NewContactPage> {
   @override
   void dispose() {
     nameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    addressController.dispose();
+    webController.dispose();
+
     super.dispose();
   }
 
@@ -36,6 +47,7 @@ class _NewContactPageState extends State<NewContactPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Contact'),
+        actions: [IconButton(onPressed: _saveContact, icon: Icon(Icons.save))],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -45,8 +57,105 @@ class _NewContactPageState extends State<NewContactPage> {
             controller: nameController,
             decoration: InputDecoration(
                 prefixIcon: Icon(Icons.person),
+                fillColor: Colors.blue.shade50,
                 filled: true,
                 labelText: 'Full Name'),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            keyboardType: TextInputType.phone,
+            controller: phoneController,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.phone),
+                fillColor: Colors.blue.shade50,
+                filled: true,
+                labelText: 'Phone'),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            keyboardType: TextInputType.emailAddress,
+            controller: emailController,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.email),
+                fillColor: Colors.blue.shade50,
+                filled: true,
+                labelText: 'Email'),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            keyboardType: TextInputType.streetAddress,
+            controller: addressController,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.location_city),
+                fillColor: Colors.blue.shade50,
+                filled: true,
+                labelText: 'Street Address'),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            keyboardType: TextInputType.url,
+            controller: webController,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.web),
+                filled: true,
+                fillColor: Colors.blue.shade50,
+                labelText: 'Website'),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Card(
+            color: Colors.blue.shade50,
+            elevation: 8,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: const Text(
+                    'Select Gender',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Radio<String>(
+                        value: 'Male',
+                        groupValue: genderGroupValue,
+                        onChanged: (value) {
+                          setState(() {
+                            genderGroupValue = value!;
+                          });
+                        }),
+                    const Text('Male'),
+                    SizedBox(
+                      width: 7,
+                    ),
+                    Radio<String>(
+                        value: 'Female',
+                        groupValue: genderGroupValue,
+                        onChanged: (value) {
+                          setState(() {
+                            genderGroupValue = value!;
+                          });
+                        }),
+                    const Text('Female'),
+                  ],
+                )
+              ],
+            ),
           ),
           SizedBox(
             height: 10,
@@ -58,7 +167,6 @@ class _NewContactPageState extends State<NewContactPage> {
               TextButton(
                   onPressed: _showDatePickerDialog,
                   child: const Text('Select Date of Birth')),
-
             ],
           ),
           SizedBox(
@@ -125,10 +233,25 @@ class _NewContactPageState extends State<NewContactPage> {
 
   void _getImage() async {
     final pickedFile = await ImagePicker().pickImage(source: source);
-    if(pickedFile != null){
-      setState((){
+    if (pickedFile != null) {
+      setState(() {
         imagePath = pickedFile.path;
       });
     }
+  }
+
+  void _saveContact() {
+    final contact = ContactModel(
+      name: nameController.text,
+      mobile: phoneController.text,
+      email: emailController.text,
+      streetAddress: addressController.text,
+      website: webController.text,
+      dob: dob,
+      image: imagePath,
+      gender: genderGroupValue,
+    );
+    contactList.add(contact);
+    Navigator.pop(context);
   }
 }
