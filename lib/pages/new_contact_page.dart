@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class NewContactPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class _NewContactPageState extends State<NewContactPage> {
   final nameController = TextEditingController();
   String? dob;
   String? imagePath;
+  ImageSource source = ImageSource.camera;
 
   @override
   void didChangeDependencies() {
@@ -52,10 +54,11 @@ class _NewContactPageState extends State<NewContactPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Chip(label: Text(dob == null ? 'No date chosen' : dob!)),
               TextButton(
                   onPressed: _showDatePickerDialog,
                   child: const Text('Select Date of Birth')),
-              Chip(label: Text(dob == null ? 'No date chosen' : dob!))
+
             ],
           ),
           SizedBox(
@@ -84,11 +87,17 @@ class _NewContactPageState extends State<NewContactPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        source = ImageSource.camera;
+                        _getImage();
+                      },
                       icon: Icon(Icons.camera_alt),
                       label: const Text('Capture')),
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        source = ImageSource.gallery;
+                        _getImage();
+                      },
                       icon: Icon(Icons.photo),
                       label: const Text('Gallery')),
                 ],
@@ -110,6 +119,15 @@ class _NewContactPageState extends State<NewContactPage> {
     if (selectedDate != null) {
       setState(() {
         dob = DateFormat('dd/MM/yyyy').format(selectedDate);
+      });
+    }
+  }
+
+  void _getImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if(pickedFile != null){
+      setState((){
+        imagePath = pickedFile.path;
       });
     }
   }
