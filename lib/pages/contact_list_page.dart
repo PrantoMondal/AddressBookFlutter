@@ -1,3 +1,4 @@
+import 'package:addressbook/pages/new_contact_page.dart';
 import 'package:flutter/material.dart';
 
 class ContactListPage extends StatefulWidget {
@@ -11,7 +12,15 @@ class ContactListPage extends StatefulWidget {
 class _ContactListPageState extends State<ContactListPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar:AppBar(
+        title: const Text('Contact List'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, NewContactPage.routeName),
+        child: const Icon(Icons.add),
+      ),
+    );
 
   }
 }
