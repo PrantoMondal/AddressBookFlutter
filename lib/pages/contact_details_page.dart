@@ -66,6 +66,14 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
               onPressed: _mailContact,
             )
               
+          ),
+          ListTile(
+              title: Text(contact.streetAddress == null || contact.streetAddress!.isEmpty ?'Unavailable' : contact.streetAddress!),
+              trailing: IconButton(
+                icon: Icon(contact.email == null? Icons.edit : Icons.map),
+                onPressed: _showMap,
+              )
+
           )
         ],
       ),
@@ -101,4 +109,25 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
       throw 'Can not launch url';
     }
   }
+
+  void _showMap() async{
+    String urlString;
+    if(Platform.isAndroid){
+      urlString = 'geo:0,0?q=${contact.streetAddress}';
+    }
+    else if(Platform.isIOS){
+      urlString = 'http://maps.apple.com/?q=${contact.streetAddress}';
+    }
+    else{
+      urlString = 'geo:0,0?q=${contact.streetAddress}';
+    }
+    if(await canLaunchUrl(Uri.parse(urlString))){
+    await launchUrl(Uri.parse(urlString));
+    }
+    else{
+    throw 'Can not launch url';
+    }
+  }
 }
+//http://maps.apple.com/?q=
+//geo:0,0?q=
