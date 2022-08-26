@@ -37,6 +37,14 @@ class _ContactListPageState extends State<ContactListPage> {
                 child: Text(contact.name.substring(0,2).toUpperCase()),
               ),
               title: Text(contact.name),
+              trailing: Consumer<ContactProvider>(
+                builder:(context, provider, _) => IconButton(
+                  icon: Icon(contact.favourite? Icons.favorite : Icons.favorite_border),
+                  onPressed: () {
+                    provider.updateFavorite(index);
+                    },
+                ),
+              ),
             ),
           );
         },),

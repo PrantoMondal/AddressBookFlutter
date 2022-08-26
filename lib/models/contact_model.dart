@@ -8,7 +8,7 @@ class ContactModel {
   String? image;
   String? gender;
   String? website;
-
+  bool favourite;
   ContactModel(
       {this.id,
       required this.name,
@@ -18,7 +18,8 @@ class ContactModel {
       this.dob,
       this.image,
       this.gender,
-      this.website});
+      this.website,
+      this.favourite = false});
 }
 
 final contactListDB = <ContactModel>[
