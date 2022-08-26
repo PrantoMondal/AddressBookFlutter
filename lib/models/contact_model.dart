@@ -21,7 +21,7 @@ class ContactModel {
       this.website});
 }
 
-final contactList = <ContactModel>[
+final contactListDB = <ContactModel>[
   ContactModel(
       id: 1,
       name: 'Pranto',

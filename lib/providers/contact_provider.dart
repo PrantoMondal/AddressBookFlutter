@@ -10,7 +10,7 @@ class ContactProvider extends ChangeNotifier{
 
   }
   getAllContacts(){
-    this.contactList = contactList;
+    this.contactList = contactListDB;
     notifyListeners();
 }
 

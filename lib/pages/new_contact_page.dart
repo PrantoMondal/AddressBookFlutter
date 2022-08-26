@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:addressbook/models/contact_model.dart';
+import 'package:addressbook/providers/contact_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class NewContactPage extends StatefulWidget {
   static const String routeName = '/new_contact';
@@ -251,7 +253,8 @@ class _NewContactPageState extends State<NewContactPage> {
       image: imagePath,
       gender: genderGroupValue,
     );
-    contactList.add(contact);
+    //contactListDB.add(contact);
+    Provider.of<ContactProvider>(context,listen: false).addContact(contact);
     Navigator.pop(context);
   }
 }
