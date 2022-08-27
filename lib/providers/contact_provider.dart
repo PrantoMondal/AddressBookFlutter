@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 
 import '../models/contact_model.dart';
@@ -16,7 +18,11 @@ class ContactProvider extends ChangeNotifier{
   void updateFavorite(int index) {
     contactList[index].favourite = !contactList[index].favourite;
     notifyListeners();
-
   }
+  deleteContact(int index){
+    contactList.removeAt(index);
+    notifyListeners();
+  }
+
 
 }
